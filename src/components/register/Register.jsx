@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { toast } from 'react-toastify';
+import { auth } from '../../firebase';
 
 export default function Register() {
     const registerHandler = async (formData) => {
@@ -11,6 +12,16 @@ export default function Register() {
         if (password !== confirm) {
             toast.error("Passwords do not match!");
             return;
+        }
+
+        try {
+            const result = await createUserWithEmailAndPassword(auth, email, password);
+
+            console.log(result);
+
+            toast.success("Registration successful!");
+        } catch (error) {
+            toast.error(`Registration failed: ${error.message}`);
         }
     }
 
