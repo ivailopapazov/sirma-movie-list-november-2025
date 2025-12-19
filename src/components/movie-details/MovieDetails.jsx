@@ -1,10 +1,16 @@
+import { Link, useParams } from "react-router";
+import { getMovieById } from "../../features/movies/movieSelectors";
+import { useSelector } from "react-redux";
+
 export default function MovieDetails() {
+    const { movieId } = useParams();
+    const movie = useSelector((state) => getMovieById(state, movieId));
+
     return (
         <>
-
             <div className="flex items-center justify-between gap-4">
-                <a href="./movies.html" className="text-sm text-slate-300 hover:text-white">← Back to Movies</a>
-                <span className="text-xs text-slate-400">Movie ID: 0001</span>
+                <Link to="/movies" className="text-sm text-slate-300 hover:text-white">← Back to Movies</Link>
+                <span className="text-xs text-slate-400">Movie ID: {movie.id}</span>
             </div>
 
             <section className="mt-6 grid gap-6 lg:grid-cols-3">
@@ -17,11 +23,11 @@ export default function MovieDetails() {
 
                         <div className="mt-5">
                             <div className="flex items-start justify-between gap-3">
-                                <h1 className="text-2xl font-bold leading-tight">Interstellar</h1>
+                                <h1 className="text-2xl font-bold leading-tight">{movie.title}</h1>
                                 <span className="text-xs px-2 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-200">★ 8.6</span>
                             </div>
 
-                            <p className="mt-2 text-slate-400">Sci-Fi · 2014 · 2h 49m</p>
+                            <p className="mt-2 text-slate-400">{movie.genre} · {movie.year} · {movie.duration}</p>
 
                             <div className="mt-5 flex flex-wrap gap-2">
                                 <span className="text-xs px-2 py-1 rounded-full bg-white/5 border border-white/10">Space</span>
@@ -39,8 +45,7 @@ export default function MovieDetails() {
                             <div>
                                 <h2 className="text-xl font-semibold">Overview</h2>
                                 <p className="mt-3 text-slate-300 leading-relaxed">
-                                    In Earth’s future, a global crop blight and dust storms are slowly rendering the planet uninhabitable.
-                                    A team of explorers travels through a wormhole in space in an attempt to ensure humanity’s survival.
+                                   {movie.overview}
                                 </p>
                             </div>
 
@@ -74,7 +79,7 @@ export default function MovieDetails() {
                         <div className="grid gap-4 sm:grid-cols-2">
                             <div className="rounded-2xl border border-white/10 bg-slate-950/30 p-4">
                                 <p className="text-xs text-slate-400">Director</p>
-                                <p className="mt-1 font-medium">Christopher Nolan</p>
+                                <p className="mt-1 font-medium">{movie.director}</p>
                             </div>
                             <div className="rounded-2xl border border-white/10 bg-slate-950/30 p-4">
                                 <p className="text-xs text-slate-400">Release Date</p>

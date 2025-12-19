@@ -1,4 +1,33 @@
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+
 export default function MovieCreate() {
+    const navigate = useNavigate();
+    const cerateMovieHandler = async (formData) => {
+        const movieData = Object.fromEntries(formData);
+
+        try {
+            const result = await fetch('https://sirma-movie-list-november-2025-default-rtdb.firebaseio.com/movies.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(movieData)
+            });
+
+            if (!result.ok) {
+                throw new Error('Failed to create movie.');
+            }
+            
+            toast.success('Movie created successfully!');
+
+            navigate('/movies');
+        } catch (error) {
+            toast.error('Error creating movie: ' + error.message);
+            return;
+        }
+    }
+
     return (
         <>
             <div className="flex items-center justify-between gap-4">
@@ -11,7 +40,7 @@ export default function MovieCreate() {
 
             <section className="mt-6 grid gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/5 p-6">
-                    <form className="space-y-5">
+                    <form action={cerateMovieHandler} className="space-y-5">
                         <div>
                             <label className="block text-sm text-slate-300 mb-2" htmlFor="title">Title</label>
                             <input id="title" name="title" type="text" placeholder="e.g. Interstellar"

@@ -8,6 +8,7 @@ import MovieCreate from "./components/movie-create/MovieCreate"
 import Register from "./components/register/Register"
 import MovieList from "./components/movie-list/MovieList"
 import { ToastContainer } from "react-toastify"
+import MovieDetails from "./components/movie-details/MovieDetails"
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/movies" element={<MovieList />} />
                     <Route path="/create-movie" element={<MovieCreate />} />
+                    <Route path="/movies/:movieId/details" element={<MovieDetails />} />
                 </Routes>
             </main>
 
