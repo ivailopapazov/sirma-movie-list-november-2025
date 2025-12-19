@@ -1,8 +1,14 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { auth } from '../../firebase';
+import { login } from '../../features/auth/authSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 export default function Register() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const registerHandler = async (formData) => {
         const name = formData.get('name');
         const email = formData.get('email');
@@ -17,9 +23,13 @@ export default function Register() {
         try {
             const result = await createUserWithEmailAndPassword(auth, email, password);
 
-            console.log(result);
+            await updateProfile(result.user, { displayName: name });
+
+            dispatch(login(result.user));
 
             toast.success("Registration successful!");
+
+            navigate('/movies');
         } catch (error) {
             toast.error(`Registration failed: ${error.message}`);
         }
