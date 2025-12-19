@@ -1,10 +1,57 @@
 import { Link, useParams } from "react-router";
 import { getMovieById } from "../../features/movies/movieSelectors";
 import { useSelector } from "react-redux";
+import { getUser } from "../../features/auth/authSelectors";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 export default function MovieDetails() {
+    const [likes, setLikes] = useState([]);
     const { movieId } = useParams();
     const movie = useSelector((state) => getMovieById(state, movieId));
+    const user = useSelector(getUser);
+
+    useEffect(() => {
+        const query = new URLSearchParams({
+            orderBy: '"movieId"',
+            equalTo: `"${movieId}"`,
+        }).toString();
+
+        fetch(`https://sirma-movie-list-november-2025-default-rtdb.firebaseio.com/likes.json?${query}`)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("User likes data:", data);
+                setLikes(Object.values(data));
+            })
+            .catch((error) => {
+                console.error("Error fetching user likes:", error);
+            });
+    }, [movieId]);
+
+    console.log(likes);
+
+
+    const likeClickHandler = async () => {
+        console.log("Liked movie:", movie.title);
+
+        try {
+            const response = await fetch('https://sirma-movie-list-november-2025-default-rtdb.firebaseio.com/likes.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ movieId: movie.id, timestamp: Date.now(), userId: user?.uid || 'anonymous' })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to like the movie');
+            }
+
+            toast.success(`You liked "${movie.title}"!`);
+        } catch (error) {
+            toast.error('Error liking movie:', error);
+        }
+    };
 
     return (
         <>
@@ -45,18 +92,31 @@ export default function MovieDetails() {
                             <div>
                                 <h2 className="text-xl font-semibold">Overview</h2>
                                 <p className="mt-3 text-slate-300 leading-relaxed">
-                                   {movie.overview}
+                                    {movie.overview}
                                 </p>
                             </div>
 
                             {/* <!-- ACTIONS --> */}
                             <div className="flex flex-wrap gap-2 md:justify-end">
-                                <button
-                                    type="button"
-                                    className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-sm"
-                                >
-                                    ❤️ Like
-                                </button>
+                                {likes.some(like => like.userId === user?.uid)
+                                    ? (
+                                        <button
+                                            type="button"
+                                            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-sm"
+                                        >
+                                            ❤️ Unlike {likes.length}
+                                        </button>
+                                    )
+                                    : (
+                                        <button
+                                            type="button"
+                                            onClick={likeClickHandler}
+                                            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-sm"
+                                        >
+                                            ❤️ Like {likes.length}
+                                        </button>
+                                    )
+                                }
 
                                 <a
                                     href="./create-movie.html"
@@ -113,7 +173,7 @@ export default function MovieDetails() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
         </>
     );
 }
