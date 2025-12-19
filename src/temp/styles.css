@@ -1,0 +1,9 @@
+/* Optional tiny extras (Tailwind handles almost everything) */
+.container-max {
+  max-width: 1100px;
+}
+
+/* Makes the whole card clickable when you wrap it in <a> */
+.card-link {
+  display: block;
+}

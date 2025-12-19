@@ -1,8 +1,17 @@
+import Footer from "./components/footer/Footer"
+import Header from "./components/header/Header"
+import Home from "./components/home/Home"
 
 function App() {
     return (
         <>
-            <h1>Movie List</h1>
+            <Header />
+
+            <main className="mx-auto container-max px-4 py-10">
+                <Home />
+            </main>
+
+            <Footer />
         </>
     )
 }
