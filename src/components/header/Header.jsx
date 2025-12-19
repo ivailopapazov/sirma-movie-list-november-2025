@@ -2,7 +2,7 @@ export default function Header() {
     return (
         <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur">
             <nav className="mx-auto container-max px-4 py-3 flex items-center justify-between">
-                <a href="./index.html" className="flex items-center gap-2">
+                <a href="./index" className="flex items-center gap-2">
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 border border-indigo-400/30">
                         🎬
                     </span>
@@ -10,14 +10,14 @@ export default function Header() {
                 </a>
 
                 <div className="hidden md:flex items-center gap-1">
-                    <a href="./index.html" className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10">Home</a>
-                    <a href="./movies.html" className="px-3 py-2 rounded-lg hover:bg-white/10">Movies</a>
-                    <a href="./create-movie.html" className="px-3 py-2 rounded-lg hover:bg-white/10">Create</a>
+                    <a href="./index" className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10">Home</a>
+                    <a href="./movies" className="px-3 py-2 rounded-lg hover:bg-white/10">Movies</a>
+                    <a href="./create-movie" className="px-3 py-2 rounded-lg hover:bg-white/10">Create</a>
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <a href="./login.html" className="px-3 py-2 rounded-lg hover:bg-white/10">Login</a>
-                    <a href="./register.html" className="px-3 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-slate-950 font-semibold">
+                    <a href="./login" className="px-3 py-2 rounded-lg hover:bg-white/10">Login</a>
+                    <a href="./register" className="px-3 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-slate-950 font-semibold">
                         Register
                     </a>
 
