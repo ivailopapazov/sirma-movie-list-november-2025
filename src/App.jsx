@@ -7,11 +7,14 @@ import { Route, Routes } from "react-router"
 import MovieCreate from "./components/movie-create/MovieCreate"
 import Register from "./components/register/Register"
 import MovieList from "./components/movie-list/MovieList"
+import { ToastContainer } from "react-toastify"
 
 function App() {
     return (
         <>
             <Header />
+
+            <ToastContainer />
 
             <main className="mx-auto container-max px-4 py-10">
                 <Routes>
